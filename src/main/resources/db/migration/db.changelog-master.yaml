@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.0.0
+      author: zorin_av
+      sqlFile:
+        - path: db/migration/v1.0.0/1.0.0-migrate-init.sql
+        - splitStatements: "false"
+      rollback:
+        sqlFile:
+          - path: db/migration/v1.0.0/1.0.0-revert-init.sql

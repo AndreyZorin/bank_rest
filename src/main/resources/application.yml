@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: bank_rest
+
+  profiles:
+    active: local
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_URL}/${DB_NAME}?currentSchema=${DB_SCHEMA}&targetServerType=primary&rewriteBatchedInserts=true
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 5
+      pool-name: datasource-pool-${spring.application.name}
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      data-source-properties:
+        reWriteBatchedInsert: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 500
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+    open-in-view: false
+    show-sql: false
+  liquibase:
+    contexts: default
+    default-schema: ${DB_SCHEMA}
+    change-log: classpath:/db/migration/db.changelog-master.yaml
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED}
+  api-docs:
+    path: /api-docs
+
+jwt:
+  secret:
+    access: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w==
+    refresh: zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==
+
+logging:
+  level:
+    root: ${LOG_LEVEL}
+    com.example.bankcards: ${LOG_LEVEL_BANKCARDS}

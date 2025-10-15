@@ -1,0 +1,1725 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Управление токенами доступа
+    description: Операции с токенами доступа
+  - name: Управление банковскими картами
+    description: Операции с банковскими картами пользователя
+  - name: Управление пользователями
+    description: Операции с пользователями
+  - name: Денежные операции
+    description: Денежные операции с банковскими картами пользователя
+paths:
+  /api/v1/users:
+    put:
+      tags:
+        - Управление пользователями
+      summary: Изменение данных пользователя
+      operationId: updateUser
+      requestBody:
+        description: Запрос на изменение данных пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+            examples:
+              Запрос на изменение данных пользователя:
+                description: Запрос на изменение данных пользователя
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  userId: 1231232134
+                  username: NewNick
+                  roles:
+                    - name: USER
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              examples:
+                Ответ с данными пользователя:
+                  description: Ответ с данными пользователя
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    userInfoList:
+                      - userId: 123233241
+                        username: Nick
+                        firstName: Joe
+                        lastName: Doe
+                        roles:
+                          - name: USER
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+    post:
+      tags:
+        - Управление пользователями
+      summary: Создание пользователя
+      operationId: createUser
+      requestBody:
+        description: Запрос на создание пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+            examples:
+              Запрос на создание пользователя:
+                description: Запрос на создание пользователя
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  username: Nick
+                  password: password
+                  firstName: Joe
+                  lastName: Doe
+                  roles:
+                    - name: USER
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              examples:
+                Ответ с данными пользователя:
+                  description: Ответ с данными пользователя
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    userInfoList:
+                      - userId: 123233241
+                        username: Nick
+                        firstName: Joe
+                        lastName: Doe
+                        roles:
+                          - name: USER
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+    delete:
+      tags:
+        - Управление пользователями
+      summary: Удаление данных пользователя
+      operationId: deleteUser
+      requestBody:
+        description: Запрос на удаление данных пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+            examples:
+              Запрос на удаление данных пользователя:
+                description: Запрос на удаление данных пользователя
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  userId: 1231232134
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              examples:
+                Ответ с данными пользователя:
+                  description: Ответ с данными пользователя
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    userInfoList:
+                      - userId: 123233241
+                        username: Nick
+                        firstName: Joe
+                        lastName: Doe
+                        roles:
+                          - name: USER
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/users/search:
+    post:
+      tags:
+        - Управление пользователями
+      summary: Поиск пользователей
+      operationId: searchUser
+      parameters:
+        - name: pageNumber
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: direction
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: sortField
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Поиск пользователей с фильтрацией и пагинацией
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+            examples:
+              Запрос на поиск пользователей:
+                description: Запрос на поиск пользователей
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  userId: 1231232134
+                  username: Nick
+                  firstName: Joe
+                  lastName: Doe
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              examples:
+                Ответ с данными пользователя:
+                  description: Ответ с данными пользователя
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    userInfoList:
+                      - userId: 123233241
+                        username: Nick
+                        firstName: Joe
+                        lastName: Doe
+                        roles:
+                          - name: USER
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/transactions/transfer:
+    post:
+      tags:
+        - Денежные операции
+      summary: Денежный перевод меду банковскими картами пользователя
+      operationId: cardToCardTransfer
+      requestBody:
+        description: Запрос на денежный перевод меду банковскими картами пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+            examples:
+              Запрос на денежный перевод меду банковскими картами пользователя:
+                description: >-
+                  Запрос на денежный перевод меду банковскими картами
+                  пользователя
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumberSource: '**** **** **** 3241'
+                  cardNumberTarget: '**** **** **** 3241'
+                  sum: 10000
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Ответ с данными транзакции:
+                  description: Ответ с данными транзакции
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardNumberSource: '**** **** **** 3241'
+                    balanceSource: 10000
+                    cardNumberTarget: '**** **** **** 3241'
+                    balanceTarget: 10000
+                    sum: 1000
+                Ответ с данными баланса карты:
+                  description: Ответ с данными баланса карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardNumberTarget: '**** **** **** 3241'
+                    balanceTarget: 10000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/transactions/balance:
+    post:
+      tags:
+        - Денежные операции
+      summary: Баланс карты пользователя
+      operationId: cardBalance
+      requestBody:
+        description: Запрос баланса карты пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+            examples:
+              Запрос баланса карты пользователя:
+                description: Запрос баланса карты пользователя
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumberTarget: '**** **** **** 3241'
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Ответ с данными транзакции:
+                  description: Ответ с данными транзакции
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardNumberSource: '**** **** **** 3241'
+                    balanceSource: 10000
+                    cardNumberTarget: '**** **** **** 3241'
+                    balanceTarget: 10000
+                    sum: 1000
+                Ответ с данными баланса карты:
+                  description: Ответ с данными баланса карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardNumberTarget: '**** **** **** 3241'
+                    balanceTarget: 10000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/cards:
+    post:
+      tags:
+        - Управление банковскими картами
+      summary: Создание карты
+      operationId: createCard
+      requestBody:
+        description: Запрос на создание карты
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+            examples:
+              Запрос на создание карты:
+                description: Запрос на создание карты
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumber: '**** **** **** 3241'
+                  userId: 12323213
+                  validityPeriod: '2026-10-10'
+                  status: ACTIVE
+                  balance: 10000
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardResponse'
+              examples:
+                Ответ с данными карты:
+                  description: Ответ с данными карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardInfoList:
+                      - cardId: 123233241
+                        cardNumber: '**** **** **** 3241'
+                        ownerUsername: Nick
+                        ownerFirstName: Joe
+                        ownerLastName: Doe
+                        validityPeriod: '2025-10-10'
+                        status: ACTIVE
+                        balance: 10000
+                Ответ об успешном удалении или запросе на блокировку:
+                  description: Ответ об успешном удалении или запросе на блокировку
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+    delete:
+      tags:
+        - Управление банковскими картами
+      summary: Удаление карты
+      operationId: deleteCard
+      requestBody:
+        description: Запрос на удаление карты
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+            examples:
+              Запрос на удаление карты:
+                description: Запрос на удаление карты
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumber: '**** **** **** 3241'
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardResponse'
+              examples:
+                Ответ с данными карты:
+                  description: Ответ с данными карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardInfoList:
+                      - cardId: 123233241
+                        cardNumber: '**** **** **** 3241'
+                        ownerUsername: Nick
+                        ownerFirstName: Joe
+                        ownerLastName: Doe
+                        validityPeriod: '2025-10-10'
+                        status: ACTIVE
+                        balance: 10000
+                Ответ об успешном удалении или запросе на блокировку:
+                  description: Ответ об успешном удалении или запросе на блокировку
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+    patch:
+      tags:
+        - Управление банковскими картами
+      summary: Изменение данных карты
+      operationId: updateCard
+      requestBody:
+        description: Запрос на изменение данных карты
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+            examples:
+              Запрос на изменение данных карты:
+                description: Запрос на изменение данных карты
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumber: '**** **** **** 3241'
+                  status: ACTIVE
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardResponse'
+              examples:
+                Ответ с данными карты:
+                  description: Ответ с данными карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardInfoList:
+                      - cardId: 123233241
+                        cardNumber: '**** **** **** 3241'
+                        ownerUsername: Nick
+                        ownerFirstName: Joe
+                        ownerLastName: Doe
+                        validityPeriod: '2025-10-10'
+                        status: ACTIVE
+                        balance: 10000
+                Ответ об успешном удалении или запросе на блокировку:
+                  description: Ответ об успешном удалении или запросе на блокировку
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/cards/search:
+    post:
+      tags:
+        - Управление банковскими картами
+      summary: Поиск банковских карт пользователей
+      operationId: searchCard
+      parameters:
+        - name: pageNumber
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: direction
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: sortField
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Поиск банковских карт с фильтрацией и пагинацией
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+            examples:
+              Запрос на поиск банковских карт:
+                description: Запрос на поиск банковских карт
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardId: 1232312
+                  cardNumber: '**** **** **** 3241'
+                  ownerUsername: SuperMan
+                  ownerFullName: Joe Doe
+                  status: ACTIVE
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardResponse'
+              examples:
+                Ответ с данными карты:
+                  description: Ответ с данными карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardInfoList:
+                      - cardId: 123233241
+                        cardNumber: '**** **** **** 3241'
+                        ownerUsername: Nick
+                        ownerFirstName: Joe
+                        ownerLastName: Doe
+                        validityPeriod: '2025-10-10'
+                        status: ACTIVE
+                        balance: 10000
+                Ответ об успешном удалении или запросе на блокировку:
+                  description: Ответ об успешном удалении или запросе на блокировку
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/cards/block-request:
+    post:
+      tags:
+        - Управление банковскими картами
+      summary: Запрос пользователя на блокировку карты
+      operationId: blockRequestCard
+      requestBody:
+        description: Запрос пользователя на блокировку карты
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+            examples:
+              Запрос пользователя на блокировку карты:
+                description: Запрос пользователя на блокировку карты
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  cardNumber: '**** **** **** 3241'
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardResponse'
+              examples:
+                Ответ с данными карты:
+                  description: Ответ с данными карты
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    cardInfoList:
+                      - cardId: 123233241
+                        cardNumber: '**** **** **** 3241'
+                        ownerUsername: Nick
+                        ownerFirstName: Joe
+                        ownerLastName: Doe
+                        validityPeriod: '2025-10-10'
+                        status: ACTIVE
+                        balance: 10000
+                Ответ об успешном удалении или запросе на блокировку:
+                  description: Ответ об успешном удалении или запросе на блокировку
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 91a0a5a8-9428-46b2-961e-d14a8485b48b
+                    errorMessage: 'Ошибка авторизации: Access Denied'
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Карта не найдена
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/auth/token:
+    post:
+      tags:
+        - Управление токенами доступа
+      summary: Получение токена доступа
+      operationId: getNewAccessToken
+      requestBody:
+        description: Запрос на получение токена доступа по токену обновления
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshJwtRequest'
+            examples:
+              Запрос на получение токена доступа по токену обновления:
+                description: Запрос на получение токена доступа по токену обновления
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  refreshToken: SuperMan
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+              examples:
+                Ответ с токенами доступа и обновления:
+                  description: Ответ с токенами доступа и обновления
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    refreshToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjI5MDIyNzd9.wFx7TLzzErJ9unezD2Znu7JC0z-f_PQWuHmASsfgDGtCTcz98-TD_Ncvw5qeV_lwv3FrasiuBnByqFCArbBAuA
+                    type: Bearer
+                Ответ с токенами доступа:
+                  description: Ответ с токенами доступа
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    type: Bearer
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Неправильный пароль
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+  /api/v1/auth/refresh:
+    post:
+      tags:
+        - Управление токенами доступа
+      summary: Получение токена доступа и нового токена обновления
+      operationId: getNewRefreshToken
+      requestBody:
+        description: >-
+          Запрос на получение токена доступа и нового токена обновления по
+          токену обновления
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshJwtRequest'
+            examples:
+              Запрос на получение токена доступа и нового токена обновления по токену обновления:
+                description: >-
+                  Запрос на получение токена доступа и нового токена обновления
+                  по токену обновления
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  refreshToken: SuperMan
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+              examples:
+                Ответ с токенами доступа и обновления:
+                  description: Ответ с токенами доступа и обновления
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    refreshToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjI5MDIyNzd9.wFx7TLzzErJ9unezD2Znu7JC0z-f_PQWuHmASsfgDGtCTcz98-TD_Ncvw5qeV_lwv3FrasiuBnByqFCArbBAuA
+                    type: Bearer
+                Ответ с токенами доступа:
+                  description: Ответ с токенами доступа
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    type: Bearer
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Неправильный пароль
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+      security:
+        - JWT: []
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Управление токенами доступа
+      summary: Получение токена доступа и токена обновления
+      operationId: login
+      requestBody:
+        description: >-
+          Запрос на получение токена доступа и токена обновления по логину и
+          паролю
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+            examples:
+              Запрос на получение токена доступа и токена обновления по логину и паролю:
+                description: >-
+                  Запрос на получение токена доступа и токена обновления по
+                  логину и паролю
+                value:
+                  requestId: 123e4567-e89b-12d3-a456-426614174000
+                  login: SuperMan
+                  password: '**********'
+        required: true
+      responses:
+        '200':
+          description: Успешная обработка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+              examples:
+                Ответ с токенами доступа и обновления:
+                  description: Ответ с токенами доступа и обновления
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    refreshToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjI5MDIyNzd9.wFx7TLzzErJ9unezD2Znu7JC0z-f_PQWuHmASsfgDGtCTcz98-TD_Ncvw5qeV_lwv3FrasiuBnByqFCArbBAuA
+                    type: Bearer
+                Ответ с токенами доступа:
+                  description: Ответ с токенами доступа
+                  value:
+                    operationStatus: COMPLETED
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    accessToken: >-
+                      eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdXBlck1hbjQiLCJleHAiOjE3NjAzMTA1NzcsInJvbGVzIjpbIlVTRVIiXX0.0jcf_wlE5r49nMnlvL5d_HFi0w2f-ssCsPlpcTWwUZTjbfCkzVi8KHmKPoemhoWijCSwnFqMu9RuPST2YC2NxA
+                    type: Bearer
+        '400':
+          description: >-
+            Запрос не соответствует заявленной схеме данных и не может быть
+            обработан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке валидации:
+                  description: Ответ с сообщением об ошибке валидации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Нарушение формата данных
+        '403':
+          description: Обработка закончилась с ошибкой авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке авторизации:
+                  description: Ответ с сообщением об ошибке авторизации
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Неправильный пароль
+        '404':
+          description: Обработка закончилась с ошибкой поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением об ошибке поиска:
+                  description: Ответ с сообщением об ошибке поиска
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Пользователь не найден
+        '500':
+          description: Обработка закончилась внутренней ошибкой сервиса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Ответ с сообщением о внутренней ошибкой сервиса:
+                  description: Ответ с сообщением о внутренней ошибкой сервиса
+                  value:
+                    operationStatus: ERROR
+                    responseId: 123e4567-e89b-12d3-a456-426614174000
+                    errorMessage: Внутренняя ошибка сервиса
+components:
+  schemas:
+    RoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+      required:
+        - name
+    UserRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRequest'
+          uniqueItems: true
+    RoleResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+    UserInfo:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleResponse'
+          uniqueItems: true
+    UserResponse:
+      type: object
+      properties:
+        operationStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - ERROR
+        responseId:
+          type: string
+        userInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfo'
+    ErrorResponse:
+      type: object
+      properties:
+        operationStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - ERROR
+        responseId:
+          type: string
+        errorMessage:
+          type: string
+    TransactionRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        cardNumberSource:
+          type: string
+        cardNumberTarget:
+          type: string
+        sum:
+          type: number
+    TransactionResponse:
+      type: object
+      properties:
+        operationStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - ERROR
+        responseId:
+          type: string
+        cardNumberSource:
+          type: string
+        balanceSource:
+          type: number
+        cardNumberTarget:
+          type: string
+        balanceTarget:
+          type: number
+        sum:
+          type: number
+    CardRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        cardId:
+          type: integer
+          format: int64
+        cardNumber:
+          type: string
+        ownerUsername:
+          type: string
+        ownerFullName:
+          type: string
+        userId:
+          type: integer
+          format: int64
+        validityPeriod:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - BLOCKED
+            - EXPIRED
+        balance:
+          type: number
+    CardInfo:
+      type: object
+      properties:
+        cardId:
+          type: integer
+          format: int64
+        cardNumber:
+          type: string
+        ownerUsername:
+          type: string
+        ownerFirstName:
+          type: string
+        ownerLastName:
+          type: string
+        validityPeriod:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - BLOCKED
+            - EXPIRED
+        balance:
+          type: number
+    CardResponse:
+      type: object
+      properties:
+        operationStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - ERROR
+        responseId:
+          type: string
+        cardInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CardInfo'
+    RefreshJwtRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        refreshToken:
+          type: string
+          minLength: 1
+      required:
+        - refreshToken
+        - requestId
+    JwtResponse:
+      type: object
+      properties:
+        operationStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - ERROR
+        responseId:
+          type: string
+        type:
+          type: string
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    JwtRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        login:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+      required:
+        - login
+        - password
+        - requestId
+  securitySchemes:
+    JWT:
+      type: http
+      in: header
+      scheme: bearer
+      bearerFormat: 'Bearer '
