@@ -35,6 +35,44 @@ spring:
     default-schema: ${DB_SCHEMA}
     change-log: classpath:/db/migration/db.changelog-master.yaml
 
+  cors:
+    url:
+      configurations:
+        # Настройки CORS для путей, начинающихся с /api
+        "[/api/**]":
+          allowed-origins:
+            - http://localhost:8081
+          allowed-methods:
+            - GET
+            - POST
+            - PATCH
+            - DELETE
+          allowed-headers:
+            - Authorization
+            - Content-Type
+          max-age: 10
+          allow-credentials: true
+        # Для всех запросов разрешаются CORS-запросы:
+        "[/**]":
+          # - с сайта http://localhost:8080
+          allowed-origins:
+            - http://localhost:8080
+          # - с методами GET и POST
+          allowed-methods:
+            - GET
+            - POST
+          # - с нестандартными заголовками Authorization и Content-Type
+          allowed-headers:
+            - Authorization
+            - Content-Type
+          # - с передачей учётных данных
+          allow-credentials: true
+          # JavaScript может обращаться к заголовку X-CUSTOM-HEADER ответа
+          exposed-headers:
+            - X-CUSTOM-HEADER
+          # Браузер может кешировать настройки CORS на 10 секунд
+          max-age: 10
+
 server:
   port: 8080
 

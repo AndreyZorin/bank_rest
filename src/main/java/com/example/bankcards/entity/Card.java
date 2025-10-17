@@ -2,7 +2,8 @@ package com.example.bankcards.entity;
 
 import com.example.bankcards.constant.CardStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,7 +15,8 @@ import java.time.OffsetDateTime;
  * Сущность банковской карты.
  */
 @Entity(name = "cards")
-@Data
+@Getter
+@Setter
 @NamedEntityGraph(
         name = "card-with-owner",
         attributeNodes = {

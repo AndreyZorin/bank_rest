@@ -1,6 +1,26 @@
 version: "3.8"
 
 services:
+  bank_rest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      postgres:
+        condition: service_started
+    environment:
+      - DB_URL=postgres:5432
+      - DB_NAME=postgres
+      - DB_SCHEMA=public
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - SWAGGER_ENABLED=true
+      - LOG_LEVEL=INFO
+      - LOG_LEVEL_BANKCARDS=DEBUG
+    networks:
+      - default
   postgres:
     container_name: postgres-bankcards
     image: postgres:13

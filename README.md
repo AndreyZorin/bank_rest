@@ -20,4 +20,4 @@
 
 ## Технологии
 
-Java 25, Sprung Boot 3.5.6, Spring Web, Swagger (OpenAPI), Spring Data JPA, PostgreSQL, Liquibase, Spring Security, JWT, Lombok, Mapstruct.
+Java 24, Sprung Boot 3.5.6, Spring Web, Swagger (OpenAPI), Spring Data JPA, PostgreSQL, Liquibase, Spring Security, JWT, Lombok, Mapstruct.

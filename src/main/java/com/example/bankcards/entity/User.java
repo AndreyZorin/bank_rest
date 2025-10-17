@@ -1,7 +1,8 @@
 package com.example.bankcards.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,8 @@ import java.util.Set;
  * Сущность пользователя(владельца карты).
  */
 @Entity(name = "users")
-@Data
+@Getter
+@Setter
 @NamedEntityGraph(
         name = "user-with-roles",
         attributeNodes = {

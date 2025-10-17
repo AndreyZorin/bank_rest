@@ -2,15 +2,17 @@ package com.example.bankcards.entity;
 
 import com.example.bankcards.constant.RoleName;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Сущность роли пользователя.
  */
 @Entity(name = "roles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
 
